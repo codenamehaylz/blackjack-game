@@ -17,35 +17,57 @@ function deal211() {
 } 
 //function to deal random number between 4-21
 function deal421() {
-    hand = Math.floor((Math.random() * 18) + 4);
+    var hand = Math.floor((Math.random() * 18) + 4);
     return hand;
 }
 //function to compare score to 21
-function compare21 (a, b) {
+function compare21 (a, b, c, d) {
     if (a === 21) {
-        alert(b + " has 21 and wins this round!")
+        alert(b + " has 21 and wins this round!");
+        c++
     }
     else if (a > 21) {
         alert(b + " has gone bust and loses this round");
+        d++
     }
-    else if (a < 21) {
-        alert(b + " has drawn " + a + ".");
-    }
-}
-//Deal random number between 4-21 to player, and number between 2-11 to dealer.
-var playerHand1 = deal421();
-var dealerHand1 = deal211();
-console.log(playerHand1);
-console.log(dealerHand1);
-//if statement so dealer's hand only shown if player does not get 21 in first round.
-if (playerHand1 === 21) {
-    alert(user + " has drawn 21 and wins this round!");
-}
-else if (playerHand1 < 21) {
-    alert(user + " has drawn " + playerHand1 + ".");
-    compare21(dealerHand1, dealer);
 }
 
+
+//Deal random number between 4-21 to player, and number between 2-11 to dealer.
+var playerHand = deal421();
+var dealerHand = deal211();
+console.log(playerHand);
+console.log(dealerHand);
+//if statement so dealer's hand only shown if player does not get 21 in first round.
+if (playerHand === 21) {
+    alert(user + " has drawn 21 and wins this round!");
+    playerScore++;
+}
+else if (playerHand < 21) {
+    alert(user + " has drawn " + playerHand + ".");
+    var playerChoice = confirm("You have " + playerHand + " and the dealer has " + dealerHand + ". Select ok to be dealt another card, or cancel to stick.");
+    while (playerChoice) {
+        var newCard = deal211();
+        var playerHand = playerHand + newCard;
+        alert(user + " was dealt " + newCard + ". You now have " + playerHand + ".");
+        if (playerHand === 21) {
+            playerScore++
+            alert("You have 21 and have won this round!");
+            break;
+        }
+        if (playerHand < 21) {
+            var playerChoice = confirm("You have " + playerHand + ". Select ok to be dealt another card, or cancel to stick.");
+        }
+        else if (playerHand > 21) {
+            dealerScore++
+            alert("You have gone bust and lose this round.");
+            break;
+        }
+    }
+}
+
+console.log(dealerScore);
+console.log(playerScore);
 
 
 
