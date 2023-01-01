@@ -23,24 +23,32 @@ function deal421() {
 //function to compare score to 21
 function compare21 (a, b) {
     if (a === 21) {
-        console.log(b + " has 21 and wins this round!")
+        alert(b + " has 21 and wins this round!")
     }
     else if (a > 21) {
-        console.log(b + " has gone bust and loses this round");
+        alert(b + " has gone bust and loses this round");
     }
     else if (a < 21) {
-        console.log(b + " has drawn " + a + ".");
+        alert(b + " has drawn " + a + ".");
     }
 }
-
-//Deal random number between 4-21 to player.
+//Deal random number between 4-21 to player, and number between 2-11 to dealer.
 var playerHand1 = deal421();
-console.log(playerHand1);
-compare21(playerHand1, user);
-
-//Deals a random number between 2-11 to the dealer
 var dealerHand1 = deal211();
+console.log(playerHand1);
 console.log(dealerHand1);
-compare21(dealerHand1, dealer);
+//if statement so dealer's hand only shown if player does not get 21 in first round.
+if (playerHand1 === 21) {
+    alert(user + " has drawn 21 and wins this round!");
+}
+else if (playerHand1 < 21) {
+    alert(user + " has drawn " + playerHand1 + ".");
+    compare21(dealerHand1, dealer);
+}
+
+
+
+
+
 
 //code to show scores on webpage
