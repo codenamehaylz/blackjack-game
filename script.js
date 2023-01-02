@@ -1,8 +1,3 @@
-//Player needs option to 'hit' or 'stay'
-//'Hit' = add another random number between 2-11, unless > 21, then they are bust
-//'Stay' = if dealer score is below 17, add a random number. Repeat until score is over 17 and less than 21. If over 21, dealer is bust.
-//Dealer stops and neither bust, compare scores. Closest to 21 wins.
-
 //Need variables for keeping score of both player and dealer
 var playerScore = 0;
 var dealerScore = 0;
@@ -20,24 +15,14 @@ function deal421() {
     var hand = Math.floor((Math.random() * 18) + 4);
     return hand;
 }
-//function to compare score to 21
-function compare21 (a, b, c, d) {
-    if (a === 21) {
-        alert(b + " has 21 and wins this round!");
-        c++
-    }
-    else if (a > 21) {
-        alert(b + " has gone bust and loses this round");
-        d++
-    }
-}
+//TODO create function to compare hands to 21??
 
+//wraps whole game in function so it can be replayed
 function playGame() {
 
 //Deal random number between 4-21 to player, and number between 2-11 to dealer.
 var playerHand = deal421();
 var dealerHand = deal211();
-
 
 //if statement so dealer's hand only shown if player does not get 21 in first round.
 if (playerHand === 21) {
@@ -73,7 +58,7 @@ else if (playerHand < 21) {
                 alert(dealer + " was dealt " + dealerCard + ".");
                 if (dealerHand === 21) {
                     dealerScore++
-                    alert(dealer + "now has " + dealerHand + ". You have lost this round.");
+                    alert(dealer + " now has " + dealerHand + ". You have lost this round.");
                     break;
                 }
                 else if (dealerHand > 21) {
@@ -112,7 +97,7 @@ while (playAgain) {
     var playAgain = confirm("Would you like to play another round?");
 }
 if (!playAgain) {
-    alert("Thanks for playing! You won " + playerScore + " times, and the dealer won " + dealerScore + " times.");
+    alert("Thanks for playing! You won " + playerScore + " time(s), and the dealer won " + dealerScore + " time(s).");
 }
 
 console.log("Dealer's score: " + dealerScore);
@@ -122,4 +107,4 @@ console.log("Player's score : " + playerScore);
 
 
 
-//code to show scores on webpage
+//TODO code to make game playable on the webpage instead of prompts
