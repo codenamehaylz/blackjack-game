@@ -1,8 +1,6 @@
 //Need variables for keeping score of both player and dealer
 var playerScore = 0;
 var dealerScore = 0;
-var user = "Player";
-var dealer = "Dealer"
 
 //FUNCTIONS
 //function to deal random number between 2-11
@@ -15,7 +13,8 @@ function deal421() {
     var hand = Math.floor((Math.random() * 18) + 4);
     return hand;
 }
-//TODO create function to compare hands to 21??
+//!Tried to create function to compare hand to 21, but it didn't save any lines of code.
+//!Could not get scores to change within the function, and would need too many parameters to be reused for both player and dealer.
 
 //wraps whole game in function so it can be replayed
 function playGame() {
@@ -26,19 +25,19 @@ var dealerHand = deal211();
 
 //if statement so dealer's hand only shown if player does not get 21 in first round.
 if (playerHand === 21) {
-    alert(user + " has drawn 21 and wins this round!");
+    alert("You have been dealt 21 and win this round!");
     playerScore++;
 }
 else if (playerHand < 21) {
-    alert(user + " has drawn " + playerHand + ".");
+    alert("You have been dealt " + playerHand + ".");
     var playerChoice = confirm("You have " + playerHand + " and the dealer has " + dealerHand + ". Select ok to be dealt another card, or cancel to stick.");
     while (playerChoice) {
         var newCard = deal211();
         var playerHand = playerHand + newCard;
-        alert(user + " was dealt " + newCard + ".");
+        alert("You have been dealt " + newCard + ".");
         if (playerHand === 21) {
-            playerScore++
-            alert("You now have " + playerHand + " and have won this round!");
+            alert("You now have " + playerHand + " and will stick.");
+            playerChoice = false;
             break;
         }
         else if (playerHand < 21) {
@@ -55,42 +54,43 @@ else if (playerHand < 21) {
         while (dealerHand < 17) {
             var dealerCard = deal211();
             var dealerHand = dealerHand + dealerCard;
-                alert(dealer + " was dealt " + dealerCard + ".");
-                if (dealerHand === 21) {
+            alert("Dealer was dealt " + dealerCard + ". The dealer now has " + dealerHand + ".");
+            if (dealerHand === 21) {
+                dealerScore++
+                alert("Dealer has " + dealerHand + ". You have lost this round.");
+                break;
+            }
+            else if (dealerHand > 21) {
+                playerScore++
+                alert("Dealer has " + dealerHand + ". They have gone bust. You win this round!");
+                break;
+            }
+            else if (dealerHand >= 17 && dealerHand < 21) {
+                alert("Dealer has " + dealerHand + " and is sticking.");
+                //Dealer has stuck, now compare scores to find winner
+                alert("Dealer has " + dealerHand + " and you have " + playerHand + ".");
+                if (dealerHand > playerHand) {
                     dealerScore++
-                    alert(dealer + " now has " + dealerHand + ". You have lost this round.");
+                    alert("Dealer's hand is closer to 21. You lose this round.");
                     break;
                 }
-                else if (dealerHand > 21) {
+                else if (playerHand > dealerHand) {
                     playerScore++
-                    alert(dealer + " now has " + dealerHand + ". They have gone bust. You win this round!");
+                    alert("Your hand is closer to 21. You win this round!");
                     break;
                 }
-                else if (dealerHand >= 17 && dealerHand < 21) {
-                    alert(dealer + " now has " + dealerHand + " and is sticking.");
-                    //Dealer has stuck, now compare scores to find winner
-                    alert(dealer + " has " + dealerHand + " and " + user + " has " + playerHand);
-                    if (dealerHand > playerHand) {
-                        dealerScore++
-                        alert(dealer + " is closer to 21. You lose this round.");
-                        break;
-                    }
-                    else if (playerHand > dealerHand) {
-                        playerScore++
-                        alert(user + " is closer to 21. You win this round!");
-                        break;
-                    }
-                    else {
-                        alert("You both got the same score. It's a draw!");
-                    }
+                else {
+                    alert("You both got the same score. It's a draw!");
                 }
+            }
         }
     }
 }
 }
 
+//Triggers game to begin
+alert("Let's play Blackjack!")
 playGame();
-
 var playAgain = confirm("Would you like to play another round?");
 while (playAgain) {
     playGame();
@@ -102,9 +102,5 @@ if (!playAgain) {
 
 console.log("Dealer's score: " + dealerScore);
 console.log("Player's score : " + playerScore);
-
-
-
-
 
 //TODO code to make game playable on the webpage instead of prompts
