@@ -43,8 +43,8 @@ function sum(arr) {
 function playGame() {
 
 //Deal random number between 4-21 to player, and number between 2-11 to dealer.
-let playerHand = dealRandom(4,18);
-let dealerHand = dealRandom(2,10);
+let playerHand = dealRandom(4,21);
+let dealerHand = dealRandom(2,11);
 
 //if statement so dealer's hand only shown if player does not get 21 in first round.
 if (playerHand === 21) {
@@ -73,7 +73,6 @@ else if (playerHand < 21) {
         }
     }
     //player has stuck, now dealer gets their cards
-    //DONE removed the scenario where dealer reaches 21 and wins automatically - will now just stick.
     if (!playerChoice) {
         while (dealerHand < 17) {
             const dealerCard = dealRandom(2,10);
