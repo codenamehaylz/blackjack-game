@@ -1,10 +1,10 @@
 //create variables for HTML elements
+const startBtn = document.getElementById('start');
+const containers = document.querySelectorAll('.hand-container');
 const hitBtn = document.querySelector('#hitBtn');
 const stayBtn = document.querySelector('#stayBtn');
-const dealerTextEl = document.querySelector('#dealer-hand');
-const playerTextEl = document.querySelector('#player-hand');
-const dealerTotalText = document.querySelector('#dealer-total');
-const playerTotalText = document.querySelector('#player-total');
+const dealerHandText = document.querySelector('#dealer-hand');
+const playerHandText = document.querySelector('#player-hand');
 const gameOverText = document.querySelector('#game-over');
 
 //Player objects
@@ -40,12 +40,26 @@ function sum(arr) {
 }
 
 //wraps whole game in function so it can be replayed
-function playGame() {
+//function playGame() {
 
 //Deal random number between 4-21 to player, and number between 2-11 to dealer.
-let playerHand = dealRandom(4,21);
-let dealerHand = dealRandom(2,11);
+function firstRound() {
+    player.hand.push(dealRandom(4,21));
+    dealer.hand.push(dealRandom(2,11));
+    player.handTotal = sum(player.hand);
+    console.log(player.hand);
+    console.log(player.handTotal)
+    
+    //remove button and add game elements
+    containers.forEach(element => element.classList.toggle('hidden'));
+}
 
+startBtn.addEventListener("click", firstRound);
+
+
+
+
+/*
 //if statement so dealer's hand only shown if player does not get 21 in first round.
 if (playerHand === 21) {
     alert("You have been dealt 21 and win this round!");
@@ -120,7 +134,4 @@ if (!playAgain) {
 
 console.log("Dealer's score: " + dealerScore);
 console.log("Player's score: " + playerScore);
-
-
-//TODO ake game playable on the page instead of prompts
-//TODO create game object that stores player and dealer info
+*/

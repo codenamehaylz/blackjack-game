@@ -5,15 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Let's play Blackjack!</h1>
-    <h3>Dealer's Hand</h3>
-    <p id="dealerhand"></p>
-    <h3>Player's Hand</h3>
-    <p id="playerhand"></p>
-    <button id="hitBtn">Hit</button> <button id="stayBtn">Stay</button>
-    <p id="win"></p>
+
+    <button id="start">Start Game</button>
+
+    <div class="hand-container box hidden">
+        <h3>Dealer's Hand</h3>
+        <p id="dealer-hand"></p>
+    </div>
+    <div class="hand-container box hidden">
+        <h3>Player's Hand</h3>
+        <p id="player-hand"></p>
+        <button id="hitBtn">Hit</button> <button id="stayBtn">Stay</button>
+    </div>
+
+    <div class="hidden" id="game-over">
+        <p></p>
+    </div>
 
 
     <script src="script.js"></script>
