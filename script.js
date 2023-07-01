@@ -1,3 +1,27 @@
+//create variables for HTML elements
+const hitBtn = document.querySelector('#hitBtn');
+const stayBtn = document.querySelector('#stayBtn');
+const dealerTextEl = document.querySelector('#dealer-hand');
+const playerTextEl = document.querySelector('#player-hand');
+const dealerTotalText = document.querySelector('#dealer-total');
+const playerTotalText = document.querySelector('#player-total');
+const gameOverText = document.querySelector('#game-over');
+
+//Player objects
+const player = {
+    name: "You",
+    hand: [],
+    handTotal: 0,
+    wins: 0
+};
+
+const dealer = {
+    name: "Dealer",
+    hand: [],
+    handTotal: 0,
+    wins: 0
+};
+
 //Variables for keeping score of both player and dealer
 let playerScore = 0;
 let dealerScore = 0;
@@ -7,6 +31,12 @@ let dealerScore = 0;
 function dealRandom(min, max) {
     const hand = Math.floor((Math.random() * (max - min)) + min);
     return hand;
+}
+
+//function for calculating handTotal
+function sum(arr) {
+    const sum = arr.reduce((a,b) => a + b, 0)
+    return sum;
 }
 
 //wraps whole game in function so it can be replayed
@@ -80,7 +110,7 @@ else if (playerHand < 21) {
 //Triggers game to begin
 alert("Let's play Blackjack!")
 playGame();
-const playAgain = confirm("Would you like to play another round?");
+let playAgain = confirm("Would you like to play another round?");
 while (playAgain) {
     playGame();
     playAgain = confirm("Would you like to play another round?");
