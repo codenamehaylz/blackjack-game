@@ -1,11 +1,13 @@
 //create variables for HTML elements
 const startBtn = document.getElementById('start');
 const containers = document.querySelectorAll('.hand-container');
-const hitBtn = document.querySelector('#hitBtn');
-const stayBtn = document.querySelector('#stayBtn');
-const dealerHandText = document.querySelector('#dealer-hand');
-const playerHandText = document.querySelector('#player-hand');
-const gameOverText = document.querySelector('#game-over');
+const hitBtn = document.getElementById('hitBtn');
+const stayBtn = document.getElementById('stayBtn');
+const dealerHandText = document.getElementById('dealer-hand');
+const playerHandText = document.getElementById('player-hand');
+const dealerTotalText = document.getElementById('dealer-total');
+const playerTotalText = document.getElementById('player-total');
+const gameOver = document.getElementById('game-over');
 
 //Player objects
 const player = {
@@ -39,20 +41,63 @@ function sum(arr) {
     return sum;
 }
 
+//function for creating a list of cards in hand
+function listCardsInHand(participant) {
+    if (participant == player) {
+        playerHandText.innerHTML = "";
+    } else if (participant == dealer) {
+        dealerHandText.innerHTML = "";
+    };
+    for (i = 0; i < participant.hand.length; i++) {
+        const cardElement = document.createElement('li');
+        cardElement.innerHTML = participant.hand[i];
+        if (participant == player) {
+            playerHandText.appendChild(cardElement);
+            player.handTotal = sum(player.hand);
+            playerTotalText.innerHTML = player.handTotal;
+        } else if (participant == dealer) {
+            dealerHandText.appendChild(cardElement);
+            dealer.handTotal = sum(dealer.hand);
+            dealerTotalText.innerHTML = dealer.handTotal;
+        };
+    };
+};
+
+
 //wraps whole game in function so it can be replayed
 //function playGame() {
 
-//Deal random number between 4-21 to player, and number between 2-11 to dealer.
+
 function firstRound() {
-    player.hand.push(dealRandom(4,21));
-    dealer.hand.push(dealRandom(2,11));
-    player.handTotal = sum(player.hand);
-    console.log(player.hand);
-    console.log(player.handTotal)
-    
     //remove button and add game elements
-    containers.forEach(element => element.classList.toggle('hidden'));
+    startBtn.classList.add('hidden');
+    containers.forEach(element => element.classList.remove('hidden'));
+    //Deal random number between 4-21 to player, and number between 2-11 to dealer.
+    player.hand.push(dealRandom(2,11));
+    player.hand.push(dealRandom(2,11));
+    dealer.hand.push(dealRandom(2,11));
+    listCardsInHand(player);
+    listCardsInHand(dealer);
+    //Scenario if player gets a natural blackjack
+    if (player.handTotal == 21) {
+        dealer.hand.push(dealRandom(2,11));
+        dealer.handTotal = sum(dealer.hand);
+        listCardsInHand(dealer);
+        if (dealer.handTotal == 21) {
+            let gameOverText = document.createElement('p');
+            gameOverText.innerHTML = "You and the dealer both got a natural blackjack (21)! It's a draw!";
+            gameOver.appendChild(gameOverText);
+            gameOver.classList.remove('hidden');
+        } else {
+            let gameOverText = document.createElement('p');;
+            gameOverText.innerHTML = "You got a natural blackjack (21)! You win!"
+            gameOver.appendChild(gameOverText);
+            gameOver.classList.remove('hidden');
+        };
+    };
 }
+
+
 
 startBtn.addEventListener("click", firstRound);
 
