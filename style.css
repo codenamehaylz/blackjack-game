@@ -1,3 +1,12 @@
+ul {
+    padding: 0;
+}
+
+ul li {
+    display: inline;
+    padding-right: 10px;
+}
+
 .hidden {
     display:none;
 }
@@ -6,8 +15,9 @@
     width: 80%;
     border: 1px solid gray;
     border-radius: 5px;
+    padding: 10px;
 }
 
-ul {
-    list-style: none;
+.total {
+    font-weight: bold;
 }

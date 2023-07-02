@@ -87,19 +87,30 @@ function firstRound() {
             let gameOverText = document.createElement('p');
             gameOverText.innerHTML = "You and the dealer both got a natural blackjack (21)! It's a draw!";
             gameOver.appendChild(gameOverText);
-            gameOver.classList.remove('hidden');
         } else {
-            let gameOverText = document.createElement('p');;
-            gameOverText.innerHTML = "You got a natural blackjack (21)! You win!"
+            let gameOverText = document.createElement('p');
+            gameOverText.innerHTML = "You got a natural blackjack (21)! You win!";
             gameOver.appendChild(gameOverText);
-            gameOver.classList.remove('hidden');
+            player.wins++
         };
     };
 }
 
+function hit() {
+    if (player.handTotal < 21) {
+        player.hand.push(dealRandom(2,11));
+        listCardsInHand(player);
+        if (player.handTotal == 21) {
+            let gameOverText = document.createElement('p');
+            gameOverText.innerHTML = "You now have 21 and will stick.";
+            gameOver.appendChild(gameOverText);
+        }
+    }
+}
 
 
 startBtn.addEventListener("click", firstRound);
+hitBtn.addEventListener("click", hit);
 
 
 
