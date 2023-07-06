@@ -63,6 +63,13 @@ function listCardsInHand(participant) {
     };
 };
 
+//function to determine the text that shows up
+function displayText(string) {
+    gameOver.innerHTML = "";
+    let gameOverText = document.createElement('p');
+    gameOverText.innerHTML = string;
+    gameOver.appendChild(gameOverText);
+}
 
 //wraps whole game in function so it can be replayed
 //function playGame() {
@@ -84,13 +91,9 @@ function firstRound() {
         dealer.handTotal = sum(dealer.hand);
         listCardsInHand(dealer);
         if (dealer.handTotal == 21) {
-            let gameOverText = document.createElement('p');
-            gameOverText.innerHTML = "You and the dealer both got a natural blackjack (21)! It's a draw!";
-            gameOver.appendChild(gameOverText);
+            displayText("You and the dealer both got a natural blackjack (21)! It's a draw!");
         } else {
-            let gameOverText = document.createElement('p');
-            gameOverText.innerHTML = "You got a natural blackjack (21)! You win!";
-            gameOver.appendChild(gameOverText);
+            displayText("You got a natural blackjack (21)! You win!");
             player.wins++
         };
     };
@@ -101,10 +104,11 @@ function hit() {
         player.hand.push(dealRandom(2,11));
         listCardsInHand(player);
         if (player.handTotal == 21) {
-            let gameOverText = document.createElement('p');
-            gameOverText.innerHTML = "You now have 21 and will stick.";
-            gameOver.appendChild(gameOverText);
-        }
+            displayText("You now have 21 and will stick.");
+        } else if (player.handTotal > 21) {
+            displayText("You have gone bust and lose this round.")
+            dealer.wins++
+        };
     }
 }
 
