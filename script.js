@@ -114,27 +114,29 @@ function hit() {
 };
 
 function stay() {
-    while (dealer.handTotal < 17) {
-        dealer.hand.push(dealRandom(2,11));
-        listCardsInHand(dealer);
-        if (dealer.handTotal > 21) {
-            displayText("The dealer has gone bust. You win this round!");
-            player.wins++;
-            break;
-        } else if (dealer.handTotal >= 17 && dealer.handTotal <= 21) {
-            if (dealer.handTotal > player.handTotal) {
-                displayText("The dealer is sticking. The dealer's hand is closer to 21 - you lose this round.");
-                dealer.wins++;
-            } else if (dealer.handTotal < player.handTotal) {
-                displayText("The dealer is sticking. Your hand is closer to 21 - you win this round!");
+    if (player.handTotal <= 21) {
+        while (dealer.handTotal < 17) {
+            dealer.hand.push(dealRandom(2,11));
+            listCardsInHand(dealer);
+            if (dealer.handTotal > 21) {
+                displayText("The dealer has gone bust. You win this round!");
                 player.wins++;
-            } else if (dealer.handTotal == player.handTotal) {
-                displayText("The dealer is sticking. You both have the same score - it's a draw!");
-            };
-            break;
-        } else {
-            displayText("Something went wrong...");
-        }
+                break;
+            } else if (dealer.handTotal >= 17 && dealer.handTotal <= 21) {
+                if (dealer.handTotal > player.handTotal) {
+                    displayText("The dealer is sticking. The dealer's hand is closer to 21 - you lose this round.");
+                    dealer.wins++;
+                } else if (dealer.handTotal < player.handTotal) {
+                    displayText("The dealer is sticking. Your hand is closer to 21 - you win this round!");
+                    player.wins++;
+                } else if (dealer.handTotal == player.handTotal) {
+                    displayText("The dealer is sticking. You both have the same score - it's a draw!");
+                };
+                break;
+            } else {
+                displayText("Something went wrong...");
+            }
+        };
     };
 };
 
