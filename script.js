@@ -33,13 +33,13 @@ let dealerScore = 0;
 function dealRandom(min, max) {
     const hand = Math.floor((Math.random() * (max - min)) + min);
     return hand;
-}
+};
 
 //function for calculating handTotal
 function sum(arr) {
     const sum = arr.reduce((a,b) => a + b, 0)
     return sum;
-}
+};
 
 //function for creating a list of cards in hand
 function listCardsInHand(participant) {
@@ -69,7 +69,7 @@ function displayText(string) {
     let gameOverText = document.createElement('p');
     gameOverText.innerHTML = string;
     gameOver.appendChild(gameOverText);
-}
+};
 
 //wraps whole game in function so it can be replayed
 //function playGame() {
@@ -97,7 +97,7 @@ function firstRound() {
             player.wins++
         };
     };
-}
+};
 
 function hit() {
     if (player.handTotal < 21) {
@@ -105,93 +105,40 @@ function hit() {
         listCardsInHand(player);
         if (player.handTotal == 21) {
             displayText("You now have 21 and will stick.");
+            stay();
         } else if (player.handTotal > 21) {
             displayText("You have gone bust and lose this round.")
             dealer.wins++
         };
     }
-}
+};
+
+function stay() {
+    while (dealer.handTotal < 17) {
+        dealer.hand.push(dealRandom(2,11));
+        listCardsInHand(dealer);
+        if (dealer.handTotal > 21) {
+            displayText("The dealer has gone bust. You win this round!");
+            player.wins++;
+            break;
+        } else if (dealer.handTotal >= 17 && dealer.handTotal <= 21) {
+            if (dealer.handTotal > player.handTotal) {
+                displayText("The dealer is sticking. The dealer's hand is closer to 21 - you lose this round.");
+                dealer.wins++;
+            } else if (dealer.handTotal < player.handTotal) {
+                displayText("The dealer is sticking. Your hand is closer to 21 - you win this round!");
+                player.wins++;
+            } else if (dealer.handTotal == player.handTotal) {
+                displayText("The dealer is sticking. You both have the same score - it's a draw!");
+            };
+            break;
+        } else {
+            displayText("Something went wrong...");
+        }
+    };
+};
 
 
 startBtn.addEventListener("click", firstRound);
 hitBtn.addEventListener("click", hit);
-
-
-
-
-/*
-//if statement so dealer's hand only shown if player does not get 21 in first round.
-if (playerHand === 21) {
-    alert("You have been dealt 21 and win this round!");
-    playerScore++;
-}
-else if (playerHand < 21) {
-    alert("You have been dealt " + playerHand + ".");
-    let playerChoice = confirm("You have " + playerHand + " and the dealer has " + dealerHand + ". Select ok to be dealt another card, or cancel to stick.");
-    while (playerChoice) {
-        const newCard = dealRandom(2,10);
-        playerHand = playerHand + newCard;
-        alert("You have been dealt " + newCard + ".");
-        if (playerHand === 21) {
-            alert("You now have " + playerHand + " and will stick.");
-            playerChoice = false;
-            break;
-        }
-        else if (playerHand < 21) {
-            playerChoice = confirm("You now have " + playerHand + ". Select ok to be dealt another card, or cancel to stick.");
-        }
-        else if (playerHand > 21) {
-            dealerScore++
-            alert("You now have " + playerHand + ". You have gone bust and lose this round.");
-            break;
-        }
-    }
-    //player has stuck, now dealer gets their cards
-    if (!playerChoice) {
-        while (dealerHand < 17) {
-            const dealerCard = dealRandom(2,10);
-            dealerHand = dealerHand + dealerCard;
-            alert("Dealer was dealt " + dealerCard + ". The dealer now has " + dealerHand + ".");
-            if (dealerHand > 21) {
-                playerScore++
-                alert("Dealer has " + dealerHand + ". They have gone bust. You win this round!");
-                break;
-            }
-            else if (dealerHand >= 17 && dealerHand <= 21) {
-                alert("Dealer has " + dealerHand + " and is sticking.");
-                //Dealer has stuck, now compare scores to find winner
-                alert("Dealer has " + dealerHand + " and you have " + playerHand + ".");
-                if (dealerHand > playerHand) {
-                    dealerScore++
-                    alert("Dealer's hand is closer to 21. You lose this round.");
-                    break;
-                }
-                else if (playerHand > dealerHand) {
-                    playerScore++
-                    alert("Your hand is closer to 21. You win this round!");
-                    break;
-                }
-                else {
-                    alert("You both got the same score. It's a draw!");
-                }
-            }
-        }
-    }
-}
-}
-
-//Triggers game to begin
-alert("Let's play Blackjack!")
-playGame();
-let playAgain = confirm("Would you like to play another round?");
-while (playAgain) {
-    playGame();
-    playAgain = confirm("Would you like to play another round?");
-}
-if (!playAgain) {
-    alert("Thanks for playing! You won " + playerScore + " time(s), and the dealer won " + dealerScore + " time(s).");
-}
-
-console.log("Dealer's score: " + dealerScore);
-console.log("Player's score: " + playerScore);
-*/
+stayBtn.addEventListener("click", stay);
