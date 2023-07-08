@@ -1,4 +1,4 @@
-//create variables for HTML elements
+// Create variables for HTML elements
 const startBtn = document.getElementById('start');
 const containers = document.querySelectorAll('.hand-container');
 const hitBtn = document.getElementById('hitBtn');
@@ -8,8 +8,10 @@ const playerHandText = document.getElementById('player-hand');
 const dealerTotalText = document.getElementById('dealer-total');
 const playerTotalText = document.getElementById('player-total');
 const gameOver = document.getElementById('game-over');
+const playerWinText = document.getElementById('player-wins');
+const dealerWinText = document.getElementById('dealer-wins');
 
-//Player objects
+// Player objects
 const player = {
     name: "You",
     hand: [],
@@ -69,8 +71,27 @@ function displayText(string) {
     gameOver.appendChild(gameOverText);
 };
 
+//TODO create one function for end of game - updates wins, displays text, shows 'play again' btn, removes other btns.
+// playerWinText.innerText = "Won: " + player.wins;
+// dealerWinText.innerText = "Lost: " + dealer.wins;
+
+function endGame(winner, message) {
+    startBtn.classList.remove('hidden');
+    stayBtn.classList.add('hidden');
+    hitBtn.classList.add('hidden');
+    if (winner == player) {
+        player.wins++;
+        displayText(message);
+    } else if (winner == dealer) {
+        dealer.wins++;
+        displayText(message);
+    } else if (winner == "none") {
+        displayText(message);
+    };
+};
+
 function firstRound() {
-    //remove start button and add game elements
+    //reset game elements
     startBtn.classList.add('hidden');
     startBtn.innerText = "Play again";
     hitBtn.classList.remove('hidden');
@@ -92,16 +113,9 @@ function firstRound() {
         dealer.hand.push(dealRandom(2,11));
         listCardsInHand(dealer);
         if (dealer.handTotal == 21) {
-            displayText("You and the dealer both got a natural blackjack (21)! It's a draw!");
-            startBtn.classList.remove('hidden');
-            stayBtn.classList.add('hidden');
-            hitBtn.classList.add('hidden');
+            endGame("none", "You and the dealer both got a natural blackjack (21)! It's a draw!");
         } else {
-            displayText("You got a natural blackjack (21)! You win!");
-            player.wins++
-            startBtn.classList.remove('hidden');
-            stayBtn.classList.add('hidden');
-            hitBtn.classList.add('hidden');
+            endGame(player, "You got a natural blackjack (21)! You win!");
         };
     };
 };
