@@ -24,24 +24,22 @@ const dealer = {
     wins: 0
 };
 
-//Variables for keeping score of both player and dealer
-let playerScore = 0;
-let dealerScore = 0;
 
 //FUNCTIONS
-//function to deal random number
+
+// Deal random number
 function dealRandom(min, max) {
     const hand = Math.floor((Math.random() * (max - min)) + min);
     return hand;
 };
 
-//function for calculating handTotal
+// Calculate handTotal
 function sum(arr) {
     const sum = arr.reduce((a,b) => a + b, 0)
     return sum;
 };
 
-//function for creating a list of cards in hand
+// Creates the list of 'cards' in hand
 function listCardsInHand(participant) {
     if (participant == player) {
         playerHandText.innerHTML = "";
@@ -63,7 +61,7 @@ function listCardsInHand(participant) {
     };
 };
 
-//function to determine the text that shows up
+// Display text at the bottom of the screen
 function displayText(string) {
     gameOver.innerHTML = "";
     let gameOverText = document.createElement('p');
@@ -71,15 +69,19 @@ function displayText(string) {
     gameOver.appendChild(gameOverText);
 };
 
-//wraps whole game in function so it can be replayed
-//function playGame() {
-
-
 function firstRound() {
-    //remove button and add game elements
+    //remove start button and add game elements
     startBtn.classList.add('hidden');
+    startBtn.innerText = "Play again";
+    hitBtn.classList.remove('hidden');
+    stayBtn.classList.remove('hidden');
+    displayText('');
+    player.hand = [];
+    dealer.hand = [];
+    listCardsInHand(player);
+    listCardsInHand(dealer);
     containers.forEach(element => element.classList.remove('hidden'));
-    //Deal random number between 4-21 to player, and number between 2-11 to dealer.
+    //Deal random numbers between 2-11, two to player and one to dealer.
     player.hand.push(dealRandom(2,11));
     player.hand.push(dealRandom(2,11));
     dealer.hand.push(dealRandom(2,11));
@@ -88,13 +90,18 @@ function firstRound() {
     //Scenario if player gets a natural blackjack
     if (player.handTotal == 21) {
         dealer.hand.push(dealRandom(2,11));
-        dealer.handTotal = sum(dealer.hand);
         listCardsInHand(dealer);
         if (dealer.handTotal == 21) {
             displayText("You and the dealer both got a natural blackjack (21)! It's a draw!");
+            startBtn.classList.remove('hidden');
+            stayBtn.classList.add('hidden');
+            hitBtn.classList.add('hidden');
         } else {
             displayText("You got a natural blackjack (21)! You win!");
             player.wins++
+            startBtn.classList.remove('hidden');
+            stayBtn.classList.add('hidden');
+            hitBtn.classList.add('hidden');
         };
     };
 };
@@ -109,33 +116,42 @@ function hit() {
         } else if (player.handTotal > 21) {
             displayText("You have gone bust and lose this round.")
             dealer.wins++
+            startBtn.classList.remove('hidden');
+            stayBtn.classList.add('hidden');
+            hitBtn.classList.add('hidden');
         };
-    }
+    };
 };
 
 function stay() {
     if (player.handTotal <= 21) {
+        hitBtn.classList.add("hidden");
+        stayBtn.classList.add("hidden");
         while (dealer.handTotal < 17) {
             dealer.hand.push(dealRandom(2,11));
             listCardsInHand(dealer);
             if (dealer.handTotal > 21) {
                 displayText("The dealer has gone bust. You win this round!");
                 player.wins++;
+                startBtn.classList.remove("hidden");
                 break;
             } else if (dealer.handTotal >= 17 && dealer.handTotal <= 21) {
                 if (dealer.handTotal > player.handTotal) {
                     displayText("The dealer is sticking. The dealer's hand is closer to 21 - you lose this round.");
                     dealer.wins++;
+                    startBtn.classList.remove('hidden');
                 } else if (dealer.handTotal < player.handTotal) {
                     displayText("The dealer is sticking. Your hand is closer to 21 - you win this round!");
                     player.wins++;
+                    startBtn.classList.remove('hidden');
                 } else if (dealer.handTotal == player.handTotal) {
                     displayText("The dealer is sticking. You both have the same score - it's a draw!");
+                    startBtn.classList.remove('hidden');
                 };
                 break;
             } else {
                 displayText("Something went wrong...");
-            }
+            };
         };
     };
 };
