@@ -71,11 +71,12 @@ function displayText(string) {
     gameOver.appendChild(gameOverText);
 };
 
-//TODO create one function for end of game - updates wins, displays text, shows 'play again' btn, removes other btns.
+//TODO endGame also updates/displays the player wins & losses on screen
 // playerWinText.innerText = "Won: " + player.wins;
 // dealerWinText.innerText = "Lost: " + dealer.wins;
 
-function endGame(winner, message) {
+function endGame(message, winner="none") {
+    startBtn.innerText = "Play again";
     startBtn.classList.remove('hidden');
     stayBtn.classList.add('hidden');
     hitBtn.classList.add('hidden');
@@ -90,10 +91,9 @@ function endGame(winner, message) {
     };
 };
 
-function firstRound() {
+function start() {
     //reset game elements
     startBtn.classList.add('hidden');
-    startBtn.innerText = "Play again";
     hitBtn.classList.remove('hidden');
     stayBtn.classList.remove('hidden');
     displayText('');
@@ -113,9 +113,9 @@ function firstRound() {
         dealer.hand.push(dealRandom(2,11));
         listCardsInHand(dealer);
         if (dealer.handTotal == 21) {
-            endGame("none", "You and the dealer both got a natural blackjack (21)! It's a draw!");
+            endGame("You and the dealer both got a natural blackjack (21)! It's a draw!");
         } else {
-            endGame(player, "You got a natural blackjack (21)! You win!");
+            endGame("You got a natural blackjack (21)! You win!", player);
         };
     };
 };
@@ -128,11 +128,7 @@ function hit() {
             displayText("You now have 21 and will stick.");
             stay();
         } else if (player.handTotal > 21) {
-            displayText("You have gone bust and lose this round.")
-            dealer.wins++
-            startBtn.classList.remove('hidden');
-            stayBtn.classList.add('hidden');
-            hitBtn.classList.add('hidden');
+            endGame("You have gone bust and lose this round.", dealer)
         };
     };
 };
@@ -145,22 +141,15 @@ function stay() {
             dealer.hand.push(dealRandom(2,11));
             listCardsInHand(dealer);
             if (dealer.handTotal > 21) {
-                displayText("The dealer has gone bust. You win this round!");
-                player.wins++;
-                startBtn.classList.remove("hidden");
+                endGame("The dealer has gone bust. You win this round!", player);
                 break;
             } else if (dealer.handTotal >= 17 && dealer.handTotal <= 21) {
                 if (dealer.handTotal > player.handTotal) {
-                    displayText("The dealer is sticking. The dealer's hand is closer to 21 - you lose this round.");
-                    dealer.wins++;
-                    startBtn.classList.remove('hidden');
+                    endGame("The dealer is sticking. The dealer's hand is closer to 21 - you lose this round.", dealer);
                 } else if (dealer.handTotal < player.handTotal) {
-                    displayText("The dealer is sticking. Your hand is closer to 21 - you win this round!");
-                    player.wins++;
-                    startBtn.classList.remove('hidden');
+                    endGame("The dealer is sticking. Your hand is closer to 21 - you win this round!", player);
                 } else if (dealer.handTotal == player.handTotal) {
-                    displayText("The dealer is sticking. You both have the same score - it's a draw!");
-                    startBtn.classList.remove('hidden');
+                    endGame("The dealer is sticking. You both have the same score - it's a draw!");
                 };
                 break;
             } else {
@@ -171,6 +160,6 @@ function stay() {
 };
 
 
-startBtn.addEventListener("click", firstRound);
+startBtn.addEventListener("click", start);
 hitBtn.addEventListener("click", hit);
 stayBtn.addEventListener("click", stay);
