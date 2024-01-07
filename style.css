@@ -1,0 +1,23 @@
+ul {
+    padding: 0;
+}
+
+ul li {
+    display: inline;
+    padding-right: 10px;
+}
+
+.hidden {
+    display:none;
+}
+
+.box {
+    width: 80%;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.total {
+    font-weight: bold;
+}
