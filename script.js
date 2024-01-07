@@ -71,10 +71,6 @@ function displayText(string) {
     gameOver.appendChild(gameOverText);
 };
 
-//TODO endGame also updates/displays the player wins & losses on screen
-// playerWinText.innerText = "Won: " + player.wins;
-// dealerWinText.innerText = "Lost: " + dealer.wins;
-
 function endGame(message, winner="none") {
     startBtn.innerText = "Play again";
     startBtn.classList.remove('hidden');
@@ -82,13 +78,12 @@ function endGame(message, winner="none") {
     hitBtn.classList.add('hidden');
     if (winner == player) {
         player.wins++;
-        displayText(message);
     } else if (winner == dealer) {
         dealer.wins++;
-        displayText(message);
-    } else if (winner == "none") {
-        displayText(message);
-    };
+    } 
+    displayText(message);
+    playerWinText.innerText = "Wins: " + player.wins;
+    dealerWinText.innerText = "Losses: " + dealer.wins;
 };
 
 function start() {
